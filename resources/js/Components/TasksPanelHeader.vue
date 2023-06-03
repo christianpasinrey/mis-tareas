@@ -2,6 +2,7 @@
 import { useTasksStore } from '../stores/tasks.js';
 import { useToast } from 'vue-toast-notification';
 
+const toast = useToast();
 const emits = defineEmits(['toggleModal']);
 const tasksStore = useTasksStore();
 
