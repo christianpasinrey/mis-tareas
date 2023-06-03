@@ -11,7 +11,7 @@
         emits('submitted');
     }
     const filteredUsersByPanel = computed(()=>{
-        return tasksStore.users.filter(user => user.tasks_panels.some(panel=>panel-id === tasksStore.selectedPanel.id));
+        return tasksStore.users.filter(user => user.tasks_panels.find(panel=>panel.id === tasksStore.selectedPanel.id));
     })
     onBeforeMount(() => {
         tasksStore.getUsers();
@@ -41,8 +41,8 @@
                     <InputLabel>Asignar usuarios</InputLabel>
 
                         <v-select
-                            :options="tasksStore.users"
-                            v-model="filteredUsersByPanel"
+                            :options="filteredUsersByPanel"
+                            v-model="tasksStore.newTask.users"
                             multiple
                             :searchable="true"
                             :reduce="option => option.id"
