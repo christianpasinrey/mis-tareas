@@ -5,6 +5,7 @@ import Modal from '@/Components/Modal.vue';
 import ModalTitle from '@/Components/ModalTitle.vue';
 import { useTasksStore } from '../stores/tasks.js';
 import { ref, computed, onBeforeMount } from 'vue';
+import TasksPanelHeader from '../Components/TasksPanelHeader.vue';
 import StoreTaskForm from '../Forms/StoreTaskForm.vue';
 import StoreTasksPanelForm from '../Forms/StoreTasksPanelForm.vue';
 import {usePage} from '@inertiajs/vue3';
@@ -25,9 +26,20 @@ const tasksStore = useTasksStore();
 const selectedModal = ref(null);
 
 const toggleModal = (modal) => {
+    if(selectedModal.value === modal){
+        selectedModal.value = null;
+        return;
+    }
     selectedModal.value = modal;
 };
 
+const handleNewPanelModal = () => {
+    if(selectedModal.value === 'newPanel'){
+        toggleModal(null);
+        return;
+    }
+    toggleModal('newPanel');
+};
 const checkIfCanAddTaskToPanel = () => {
     if (tasksStore.selectedPanel != null) {
         toggleModal('newTask');
@@ -74,27 +86,7 @@ onBeforeMount(()=>{
 
         <div class="py-12 h-full">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 h-full">
-                <div class="flex flex-row w-full justify-between items-center gap-3 px-4 py-2">
-                    <div class="flex flex-wrap gap-3">
-                        <button v-for="panel in tasksStore.tasksPanels"
-                            :key="`panel-${panel.id}`"
-                            :style="{
-                                backgroundColor: panel.background_color ?? 'gray',
-                                border: tasksStore.selectedPanel!=null && tasksStore.selectedPanel.id === panel.id ? '1px solid black' : 'none',
-                                borderRadius: '5px',
-                                padding: '5px 10px',
-                                color: 'white',
-                            }"
-                            @click.prevent="tasksStore.selectedPanel = tasksStore.tasksPanels.find(p => p.id === panel.id)"
-                        >
-                            {{ panel.name }}
-                        </button>
-                    </div>
-                    <button @click.prevent="toggleModal('newPanel')"
-                        class="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded">
-                        Añadir panel
-                    </button>
-                </div>
+                <TasksPanelHeader @toggleModal="toggleModal"/>
                 <hr class="my-2">
                 <div class="flex flex-row w-full justify-center items-center" v-if="tasksStore.selectedPanel!=null">
                     <TasksPanel :userId="props.user.id"/>
