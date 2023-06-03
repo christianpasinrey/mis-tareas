@@ -1,6 +1,10 @@
 # Mis Tareas
 
-Este es un proyecto de ejemplo desarrollado con ![Laravel Logo](https://laravel.com/img/logomark.min.svg) Laravel y ![Vue Logo](https://vuejs.org/images/logo.png) Vue que muestra una aplicación de administración de tareas. Utiliza la librería ![Pinia Logo](https://pinia.esm.dev/pinia-logo.svg) Pinia para la gestión del estado de la aplicación.
+Este es un proyecto de ejemplo desarrollado con 
+<img src="https://laravel.com/img/logomark.min.svg">
+<img src="https://vuejs.org/images/logo.png">
+<img src="https://pinia.esm.dev/pinia-logo.svg">
+que muestra una aplicación simple de administración de tareas. Utiliza la librería Pinia para la gestión del estado de la aplicación entre los componentes que conforman el conjunto del panel de tareas.
 
 ## Clonar el repositorio
 
