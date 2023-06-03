@@ -92,7 +92,7 @@ export const useTasksStore = defineStore('tasks', ()=>{
     const storeNewTasksPanel = async () => {
         axios.post(route('tasks_panels.store'),newPanel.value)
         .then(response => {
-            tasksPanels.value.push(response.data);
+            tasksPanels.value.push(response.data.tasksPanel);
             newPanel.value = {
                 name: '',
                 background_color: '',
