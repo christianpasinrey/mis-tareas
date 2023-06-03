@@ -33,20 +33,6 @@ const toggleModal = (modal) => {
     selectedModal.value = modal;
 };
 
-const handleNewPanelModal = () => {
-    if(selectedModal.value === 'newPanel'){
-        toggleModal(null);
-        return;
-    }
-    toggleModal('newPanel');
-};
-const checkIfCanAddTaskToPanel = () => {
-    if (tasksStore.selectedPanel != null) {
-        toggleModal('newTask');
-    } else {
-        toast.info('Debes seleccionar un panel para añadir una tarea');
-    }
-};
 const showModal = (modal) => {
     return selectedModal.value === modal;
 };
@@ -72,18 +58,6 @@ onBeforeMount(()=>{
     <Head title="Dashboard" />
 
     <AuthenticatedLayout>
-        <template #header>
-            <div class="flex flex-row items-center content-center align-middle justify-between">
-                <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Mi panel de tareas</h2>
-                <button
-                    title="Añadir tarea al panel actual"
-                    @click.prevent="checkIfCanAddTaskToPanel"
-                    class="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded">
-                    Nueva Tarea
-                </button>
-            </div>
-        </template>
-
         <div class="py-12 h-full">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 h-full">
                 <TasksPanelHeader @toggleModal="toggleModal"/>
