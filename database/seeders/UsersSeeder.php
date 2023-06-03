@@ -17,16 +17,12 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
-            'name'=>'Christian',
-            'lastname'=> 'Pasín Rey',
-            'alias'=> 'Christian',
-            'email'=>'christian.pasin.rey@gmail.com',
-            'password'=>Hash::make('12345679'),
-            'birthday' => '1988-01-05',
-            'remember_token' => Str::random(10),
-        ]);
         User::factory()->count(10)->create();
+        $users = User::all();
+
+        foreach($users as $user){
+            echo $user->name . ' ' . $user->email . ' ' . $user->password . "\n";
+        }
         return;
     }
 }
