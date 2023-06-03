@@ -9,6 +9,9 @@ const tasksStore = useTasksStore();
 const addPanel = () => {
     emits('toggleModal', 'newPanel');
 }
+const editPanel = () => {
+    emits('toggleModal', 'editPanel');
+}
 const checkIfCanAddTaskToPanel = () => {
     if (tasksStore.selectedPanel != null) {
         emits('toggleModal','newTask');
@@ -32,7 +35,7 @@ function leaveButton(e,panel){
 </script>
 <template>
     <div class="flex flex-row w-full justify-between items-center gap-3 px-4 py-2">
-        <div class="flex flex-wrap gap-3">
+        <div class="flex flex-wrap gap-3 relative">
             <button v-for="panel in tasksStore.tasksPanels"
                 class="hover:scale-105 transition duration-500 ease-in-out"
                 :key="`panel-${panel.id}`"
@@ -50,6 +53,15 @@ function leaveButton(e,panel){
                 @mouseleave="leaveButton($event,panel)"
             >
                 {{ panel.name }}
+                <button @click.prevent="editPanel" v-if="panel === tasksStore.selectedPanel"
+                    class="absolute -bottom-2.5 -left-2.5 z-10 text-xs bg-yellow-500 hover:opacity-85 text-gray-900 hover:text-gray-50 font-bold p-1 rounded-full border border-slate-200 transition duration-500 ease-in-out">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        class="bi bi-people w-4 h-4"
+                        viewBox="0 0 16 16">
+                        <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8Zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816ZM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"/>
+                    </svg>
+                </button>
             </button>
             <button
                 title="Añadir tarea al panel actual"
@@ -62,5 +74,12 @@ function leaveButton(e,panel){
             class="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded">
             Añadir panel
         </button>
+    </div>
+    <div class="flex flex-row w-full justify-between px-4">
+        <div class="flex flex-wrap w-full gap-3" v-if="tasksStore.selectedPanel!= null">
+            <span v-for="user in tasksStore.selectedPanel.users" :key="`panel-user-${user.id}`">
+                <span class="text-xs font-bold text-gray-500"> {{ user.alias!= null && user.alias != '' ? user.alias : user.name }} </span>
+            </span>
+        </div>
     </div>
 </template>

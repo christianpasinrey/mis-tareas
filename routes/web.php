@@ -48,6 +48,7 @@ Route::group(['middleware' => ['auth']],function(){
     Route::resource('tasks_panels', TasksPanelController::class);
 
     Route::get('/users/{id}/tasks', [TaskController::class, 'userTasks'])->name('users.tasks');
+    Route::post('/tasks-panels/{id}/users', [TasksPanelController::class, 'updateAssignments'])->name('tasks_panels.update_assignments');
 });
 
 require __DIR__.'/auth.php';

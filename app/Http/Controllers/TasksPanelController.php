@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TasksPanel;
 use App\Http\Requests\StoreTasksPanelRequest;
 use App\Http\Requests\UpdateTasksPanelRequest;
+use Illuminate\Http\Request;
 
 class TasksPanelController extends Controller
 {
@@ -16,7 +17,7 @@ class TasksPanelController extends Controller
     public function index()
     {
         try{
-            return response()->json(TasksPanel::with('tasks','tasks.user','tasks.users')->get());
+            return response()->json(TasksPanel::with('tasks','tasks.user','tasks.users','users')->get());
         }catch(\Exception){
             throw new \Exception('Error al obtener las tareas');
         }
@@ -85,6 +86,18 @@ class TasksPanelController extends Controller
         ], 200);
     }
 
+    public function updateAssignments(Request $request, $id)
+    {
+        try{
+            $tasksPanel = TasksPanel::findOrFail($id);
+        }catch(\Exception){
+            throw new \Exception('Error al obtener el panel');
+        }
+        $tasksPanel->users()->sync($request->users);
+        return response()->json([
+            'message' => 'Panel actualizado correctamente',
+        ], 200);
+    }
     /**
      * Remove the specified resource from storage.
      *

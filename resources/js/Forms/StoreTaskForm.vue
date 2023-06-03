@@ -1,5 +1,5 @@
 <script setup>
-    import { computed, onBeforeMount,ref } from 'vue';
+    import { computed, onBeforeMount,onMounted,ref } from 'vue';
     import InputLabel from '@/Components/InputLabel.vue';
     import { useTasksStore } from '../stores/tasks.js';
 
@@ -10,10 +10,16 @@
         tasksStore.storeTask();
         emits('submitted');
     }
+    const filteredUsersByPanel = computed(()=>{
+        return tasksStore.users.filter(user => user.tasks_panels.some(panel=>panel-id === tasksStore.selectedPanel.id));
+    })
     onBeforeMount(() => {
         tasksStore.getUsers();
         tasksStore.newTask.tasks_panel_id = tasksStore.selectedPanel.id;
     });
+    onMounted(()=>{
+        console.log(filteredUsersByPanel.value);
+    })
 </script>
 <template>
     <div class="sm:p-2 md:p-4">
@@ -36,7 +42,7 @@
 
                         <v-select
                             :options="tasksStore.users"
-                            v-model="tasksStore.newTask.users"
+                            v-model="filteredUsersByPanel"
                             multiple
                             :searchable="true"
                             :reduce="option => option.id"

@@ -21,6 +21,7 @@
                     }">
                     {{ title }}
                 </h2>
+                <slot/>
             </div>
        </div>
        <div class="flex flex-col justify-center">

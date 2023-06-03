@@ -8,6 +8,7 @@ import { ref, computed, onBeforeMount } from 'vue';
 import TasksPanelHeader from '../Components/TasksPanelHeader.vue';
 import StoreTaskForm from '../Forms/StoreTaskForm.vue';
 import StoreTasksPanelForm from '../Forms/StoreTasksPanelForm.vue';
+import UpdateTasksPanelAssignmentsForm from '../Forms/UpdateTasksPanelAssignmentsForm.vue';
 import {usePage} from '@inertiajs/vue3';
 import TasksPanel from '../Components/TasksPanel.vue';
 import AddIcon from '@/Icons/AddIcon.vue';
@@ -51,6 +52,7 @@ const deleteTask = () => {
 
 onBeforeMount(()=>{
     tasksStore.getTasksPanels();
+    tasksStore.getUsers();
 })
 </script>
 
@@ -80,6 +82,12 @@ onBeforeMount(()=>{
         <Modal :show="showModal('newPanel')" maxWidth="3xl">
             <ModalTitle title="Nuevo panel de tareas" @close="toggleModal(null)"/>
             <StoreTasksPanelForm @submitted="toggleModal(null)"/>
+        </Modal>
+        <Modal :show="showModal('editPanel')">
+            <ModalTitle @close="toggleModal(null)">
+                <h2 class="uppercase">{{ `Asignaciones de tareas ${tasksStore.selectedPanel.name}` }}</h2>
+            </ModalTitle>
+            <UpdateTasksPanelAssignmentsForm @submitted="toggleModal(null)"/>
         </Modal>
     </AuthenticatedLayout>
 </template>

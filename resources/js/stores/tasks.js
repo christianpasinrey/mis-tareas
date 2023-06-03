@@ -83,7 +83,7 @@ export const useTasksStore = defineStore('tasks', ()=>{
                 users: []
             };
             tasks.value.push(response.data);
-            toast.success('Task created successfully');
+            toast.success('Tarea creada correctamente');
         }).catch(error => {
             console.log(error);
         });
@@ -99,7 +99,16 @@ export const useTasksStore = defineStore('tasks', ()=>{
                 description: '',
                 users: []
             };
-            toast.success('Panel created successfully');
+            toast.success('Panel creado correctamente');
+        }).catch(error => {
+            console.log(error);
+        });
+    }
+    const updateSelectedPanelAssignments = () => {
+        axios.post(route('tasks_panels.update_assignments',selectedPanel.value.id),{users: selectedPanel.value.users.map(u => u.id)})
+        .then(response => {
+            tasksPanels.value.find(p => p.id === response.data.id).users = response.data.users;
+            toast.success('Panel actualizado correctamente');
         }).catch(error => {
             console.log(error);
         });
@@ -108,9 +117,8 @@ export const useTasksStore = defineStore('tasks', ()=>{
         task.users = task.users.map(u => u.id);
         axios.put(route('tasks.update',task.id),task)
         .then(response => {
-            //change the task for the updated one
-            tasks.value = tasks.value.map(t => t.id === response.data.id ? response.data : t);
-            toast.success('Task updated successfully');
+            tasksPanels.value.find(t=>selectedPanel.value.id === t.id).users = selectedPanel.value.users;
+            toast.success('Tarea actualizada correctamente');
         }).catch(error => {
             console.log(error);
         });
@@ -138,6 +146,7 @@ export const useTasksStore = defineStore('tasks', ()=>{
         getTasksStatuses,
         storeTask,
         storeNewTasksPanel,
+        updateSelectedPanelAssignments,
         updateTask,
         deleteTask,
     };
