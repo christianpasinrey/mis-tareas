@@ -2,6 +2,7 @@
     import { computed, onBeforeMount,ref } from 'vue';
     import InputLabel from '@/Components/InputLabel.vue';
     import { useTasksStore } from '../stores/tasks.js';
+    import { createPopper } from '@popperjs/core'
 
     const emits = defineEmits(['submitted'])
     const tasksStore = useTasksStore();
@@ -9,6 +10,52 @@
     const store = ()=>{
         tasksStore.storeNewTasksPanel();
         emits('submitted');
+    }
+    const withPopper = (dropdownList, component, { width }) => {
+      /**
+       * We need to explicitly define the dropdown width since
+       * it is usually inherited from the parent with CSS.
+       */
+      dropdownList.style.width = width
+
+      /**
+       * Here we position the dropdownList relative to the $refs.toggle Element.
+       *
+       * The 'offset' modifier aligns the dropdown so that the $refs.toggle and
+       * the dropdownList overlap by 1 pixel.
+       *
+       * The 'toggleClass' modifier adds a 'drop-up' class to the Vue Select
+       * wrapper so that we can set some styles for when the dropdown is placed
+       * above.
+       */
+      const popper = createPopper(component.$refs.toggle, dropdownList, {
+        placement: this.placement,
+        modifiers: [
+          {
+            name: 'offset',
+            options: {
+              offset: [0, -1],
+            },
+          },
+          {
+            name: 'toggleClass',
+            enabled: true,
+            phase: 'write',
+            fn({ state }) {
+              component.$el.classList.toggle(
+                'drop-up',
+                state.placement === 'top'
+              )
+            },
+          },
+        ],
+      })
+
+      /**
+       * To prevent memory leaks Popper needs to be destroyed.
+       * If you return function, it will be called just before dropdown is removed from DOM.
+       */
+      return () => popper.destroy()
     }
     onBeforeMount(() => {
        tasksStore.getUsers();
@@ -30,7 +77,7 @@
                     <InputLabel>Descripción</InputLabel>
                     <textarea v-model="tasksStore.newPanel.description" :rows="4" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
                 </div>
-                <div class="col-span-12 relative h-12">
+                <div class="col-span-12">
                     <InputLabel>Asignar usuarios</InputLabel>
                         <v-select
                             :options="tasksStore.users"
@@ -39,6 +86,7 @@
                             :searchable="true"
                             :reduce="option => option.id"
                             label="label"
+                            :calculate-position="withPopper"
                         ></v-select>
                 </div>
                 <div class="col-span-12 justify-center text-end content-end items-end">
@@ -50,3 +98,17 @@
         </form>
     </div>
 </template>
+<style>
+.v-select.drop-up.vs--open .vs__dropdown-toggle {
+  border-radius: 0 0 4px 4px;
+  border-top-color: transparent;
+  border-bottom-color: rgba(60, 60, 60, 0.26);
+}
+
+[data-popper-placement='top'] {
+  border-radius: 4px 4px 0 0;
+  border-top-style: solid;
+  border-bottom-style: none;
+  box-shadow: 0 -3px 6px rgba(0, 0, 0, 0.15);
+}
+</style>
