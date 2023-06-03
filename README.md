@@ -1,9 +1,11 @@
 # Mis Tareas
 
 Este es un proyecto de ejemplo desarrollado con 
-<img src="https://laravel.com/img/logomark.min.svg">
-<img src="https://vuejs.org/images/logo.png">
+<br>
+<img src="https://laravel.com/img/logomark.min.svg" height="200px" style="object-fit:cover;">
+<img src="https://vuejs.org/images/logo.png" height="200px" style="object-fit:cover;">
 <img src="https://pinia.esm.dev/pinia-logo.svg">
+<br>
 que muestra una aplicación simple de administración de tareas. Utiliza la librería Pinia para la gestión del estado de la aplicación entre los componentes que conforman el conjunto del panel de tareas.
 
 ## Clonar el repositorio
