@@ -49,7 +49,7 @@ defineProps({
         </div>
 
         <div class="max-w-7xl mx-auto p-6 lg:p-8 absolute z-20">
-            <h1 class="rounded-md animate-bounce bg-blue-500 text-white font-medium px-12 py-4 text-4xl">MIS TAREAS</h1>
+            <h1 class="cursor-default rounded-md animate-bounce bg-blue-500 text-white font-medium px-12 py-4 text-4xl">MIS TAREAS</h1>
         </div>
         <div class="absolute top-0 left-0 h-full w-full z-10">
             <canvas ref="canvas" :height="windowHeigth" :width="windowWidth"></canvas>

@@ -6,8 +6,8 @@ import { Link } from '@inertiajs/vue3';
 <template>
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
         <div>
-            <Link href="/">
-                <h1 class="rounded-md animate-bounce bg-blue-500 text-white font-medium px-12 py-4 text-4xl">MIS TAREAS</h1>
+            <Link :href="route('dashboard')">
+                <h1 class="cursor-pointer rounded-md animate-bounce bg-blue-500 text-white font-medium px-12 py-4 text-4xl">MIS TAREAS</h1>
             </Link>
         </div>
 
