@@ -54,7 +54,7 @@ function leaveButton(e,panel){
             >
                 {{ panel.name }}
                 <button @click.prevent="editPanel" v-if="panel === tasksStore.selectedPanel"
-                    class="absolute -bottom-2.5 -left-2.5 z-10 text-xs bg-yellow-500 hover:opacity-85 text-gray-900 hover:text-gray-50 font-bold p-1 rounded-full border border-slate-200 transition duration-500 ease-in-out">
+                    class="absolute -bottom-3 -left-3 z-10 text-xs bg-yellow-500 hover:opacity-85 text-gray-900 hover:text-gray-50 font-bold p-1 rounded-full border border-slate-200 transition duration-500 ease-in-out">
                     <svg xmlns="http://www.w3.org/2000/svg"
                         fill="currentColor"
                         class="bi bi-people w-4 h-4"
