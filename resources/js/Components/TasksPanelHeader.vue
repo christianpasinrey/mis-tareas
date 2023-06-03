@@ -63,16 +63,16 @@ function leaveButton(e,panel){
                     </svg>
                 </button>
             </button>
-            <button
-                title="Añadir tarea al panel actual"
-                @click.prevent="checkIfCanAddTaskToPanel"
-                class="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded hover:scale-105 transition duration-500 ease-in-out">
-                Nueva Tarea
+            <button @click.prevent="addPanel"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded hover:scale-105 transition duration-500 ease-in-out">
+                Añadir panel
             </button>
         </div>
-        <button @click.prevent="addPanel"
-            class="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded">
-            Añadir panel
+        <button
+            title="Añadir tarea al panel actual"
+            @click.prevent="checkIfCanAddTaskToPanel"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hover:scale-105 transition duration-500 ease-in-out">
+            Nueva Tarea
         </button>
     </div>
     <div class="flex flex-row w-full justify-between mx-4 px-4 bg-gray-300 rounded-md text-gray-500 hover:text-gray-50 hover:bg-gray-500">
