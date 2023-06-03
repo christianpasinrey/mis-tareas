@@ -6,7 +6,9 @@ Este es un proyecto de ejemplo desarrollado con
 <img src="https://vuejs.org/images/logo.png" height="200px" style="object-fit:cover;">
 <img src="https://pinia.esm.dev/pinia-logo.svg">
 <br>
-que muestra una aplicación simple de administración de tareas. Utiliza la librería Pinia para la gestión del estado de la aplicación entre los componentes que conforman el conjunto del panel de tareas.
+Mis tareas es un ejemplo simple de gestor de tareas por categorías o "paneles".
+
+Utiliza la librería Pinia para la gestión del estado de la aplicación entre los componentes que conforman el conjunto de cada panel de tareas.
 
 ## Clonar el repositorio
 
@@ -14,9 +16,9 @@ que muestra una aplicación simple de administración de tareas. Utiliza la libr
 2. Abre tu terminal y navega hasta el directorio donde deseas clonar el repositorio.
 3. Ejecuta el siguiente comando para clonar el repositorio:
 
-
+```bash
 git clone https://github.com/tu-usuario/mis-tareas.git
-
+```
 ## Configuración
 
 1. Navega hasta el directorio del proyecto clonado:
