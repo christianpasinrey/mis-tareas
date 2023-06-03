@@ -7,15 +7,10 @@
         userId: {
             type: Number,
             required: true
-        }
+        },
     })
 
     const tasksStore = useTasksStore();
-
-    const search = ref('');
-    const tasksStatusSpacing = computed(() => {
-        return parseInt(12 / tasksStore.tasksStatuses.length);
-    });
 
     const dragStart = (e) => {
         e.dataTransfer.setData("Text",e.target.attributes.taskId.value);
@@ -47,21 +42,22 @@
     <div v-if="tasksStore.loading" class="dark:text-gray-50">
 
     </div>
-    <div v-else class="dark:text-gray-50 grid grid-cols-12 w-full">
-        <div :class="`flex flex-col col-span-3 mx-4 rounded-md dark:bg-slate-500 bg-slate-300 px-4 py-2`"
+    <div v-else class="dark:text-gray-50 grid grid-cols-12 w-full h-full h-min-64">
+        <div class="flex flex-col min-h-[15vh] max-h-full col-span-3 mx-4 rounded-md dark:bg-slate-500 bg-slate-300 px-4 py-2"
             v-for="status in tasksStore.tasksStatuses"
             :key="`status-${status.id}`"
             :dropzone="true"
             @dragover="e => e.preventDefault()"
             @drop="onDrop($event, status)"
             >
-            <h3 class="text-xl font-bold">{{ status.name }}</h3>
+            <h3 class="text-xl font-bold"
+                >{{ status.name }}</h3>
             <span
                 :draggable="true"
                 @dragstart="dragStart($event, task)"
                 @drag="dragging"
                 @dragend="dragEnd"
-                v-for="task in tasksStore.tasks.filter(filtered=>filtered.status_id === status.id)"
+                v-for="task in tasksStore.tasks.filter(filtered=>filtered.status_id === status.id && filtered.tasks_panel_id === tasksStore.selectedPanel.id)"
                 :key="`task-${task.id}`"
                 :taskId="task.id"
                 :id="`task-${task.id}`"

@@ -31,6 +31,7 @@ class StoreTaskRequest extends FormRequest
             'status_id' => 'nullable|exists:task_statuses,id',
             'users' => 'nullable|array',
             'users.*' => 'exists:users,id',
+            'tasks_panel_id' => 'required|exists:tasks_panels,id',
         ];
     }
 
@@ -49,6 +50,8 @@ class StoreTaskRequest extends FormRequest
             'status_id.required' => 'El estado es obligatorio',
             'status_id.exists' => 'El estado seleccionado no existe',
             'users.*.exists' => 'El usuario seleccionado no existe',
+            'tasks_panel_id.required' => 'El panel es obligatorio',
+            'tasks_panel_id.exists' => 'El panel seleccionado no existe',
         ];
     }
 }

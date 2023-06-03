@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TaskStatusController;
+use App\Http\Controllers\TasksPanelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +45,7 @@ Route::group(['middleware' => ['auth']],function(){
     Route::resource('users', UserController::class);
     Route::resource('tasks', TaskController::class);
     Route::resource('tasks_statuses', TaskStatusController::class);
+    Route::resource('tasks_panels', TasksPanelController::class);
 
     Route::get('/users/{id}/tasks', [TaskController::class, 'userTasks'])->name('users.tasks');
 });

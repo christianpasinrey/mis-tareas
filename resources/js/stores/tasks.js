@@ -8,6 +8,8 @@ export const useTasksStore = defineStore('tasks', ()=>{
     const tasks = ref([]);
     const assignedTasks = ref([]);
     const tasksStatuses = ref([]);
+    const tasksPanels = ref([]);
+    const selectedPanel = ref(null);
     const user = ref(null);
     const users = ref([]);
     const newTask = ref({
@@ -18,6 +20,12 @@ export const useTasksStore = defineStore('tasks', ()=>{
         status: 1,
         users: []
     });
+    const newPanel = ref({
+        name: '',
+        description: '',
+        users: []
+    });
+
     const loading = ref(true);
     const getUser = async (id) => {
         axios.get(route('users.show',id))
@@ -34,7 +42,15 @@ export const useTasksStore = defineStore('tasks', ()=>{
         const response = await axios.get(route('users.index'));
         users.value = response.data;
     }
-
+    const getTasksPanels = () => {
+        axios.get(route('tasks_panels.index'))
+        .then(response => {
+            tasksPanels.value = response.data;
+            loading.value = false;
+        }).catch(error => {
+            console.log(error);
+        });
+    }
     const getTasks = () => {
         loading.value = true;
         getTasksStatuses();
@@ -73,6 +89,21 @@ export const useTasksStore = defineStore('tasks', ()=>{
         });
     }
 
+    const storeNewTasksPanel = async () => {
+        axios.post(route('tasks_panels.store'),newPanel.value)
+        .then(response => {
+            tasksPanels.value.push(response.data);
+            newPanel.value = {
+                name: '',
+                background_color: '',
+                description: '',
+                users: []
+            };
+            toast.success('Panel created successfully');
+        }).catch(error => {
+            console.log(error);
+        });
+    }
     const updateTask = (task) => {
         task.users = task.users.map(u => u.id);
         axios.put(route('tasks.update',task.id),task)
@@ -91,6 +122,9 @@ export const useTasksStore = defineStore('tasks', ()=>{
     }
     return {
         tasks,
+        tasksPanels,
+        newPanel,
+        selectedPanel,
         assignedTasks,
         tasksStatuses,
         user,
@@ -100,8 +134,10 @@ export const useTasksStore = defineStore('tasks', ()=>{
         getUser,
         getUsers,
         getTasks,
+        getTasksPanels,
         getTasksStatuses,
         storeTask,
+        storeNewTasksPanel,
         updateTask,
         deleteTask,
     };

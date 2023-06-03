@@ -68,6 +68,16 @@ class User extends Authenticatable
         );
     }
 
+    public function tasksPanels()
+    {
+        return $this->belongsToMany(
+            TasksPanel::class,
+            'users_in_tasks_panels',
+            'user_id',
+            'tasks_panel_id'
+        );
+    }
+
     public function can($abilities, $arguments = [])
     {
         return app(\Illuminate\Contracts\Auth\Access\Gate::class)->forUser($this)->check($abilities, $arguments);

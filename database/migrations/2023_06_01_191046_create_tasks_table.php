@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text("description")->nullable();
             $table->date("due_date")->nullable();
             $table->foreignId('user_id')->constrained();
+            $table->foreignId('tasks_panel_id')->constrained('tasks_panels')->after('id')->onDelete('cascade');
             $table->foreignId('status_id')->constrained('task_statuses','id');
             $table->softDeletes();
             $table->timestamps();

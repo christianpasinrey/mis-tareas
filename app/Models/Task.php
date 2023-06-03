@@ -16,6 +16,7 @@ class Task extends Model
         'title',
         'description',
         'due_date',
+        'tasks_panel_id',
         'status_id',
         'user_id',
     ];
@@ -33,6 +34,11 @@ class Task extends Model
             'task_id',
             'user_id'
         );
+    }
+
+    public function panel()
+    {
+        return $this->belongsTo(TaskPanel::class);
     }
 
     public function scopeFilter($query, array $filters)
