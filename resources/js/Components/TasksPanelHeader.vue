@@ -12,9 +12,9 @@ const addPanel = () => {
 const checkIfCanAddTaskToPanel = () => {
     if (tasksStore.selectedPanel != null) {
         emits('toggleModal','newTask');
-    } else {
-        toast.info('Debes seleccionar un panel para añadir una tarea');
+        return;
     }
+    toast.info('Debes seleccionar un panel para añadir una tarea');
 };
 function hoverButton(e,panel){
     let element = document.getElementById(`panel-button-${panel.id}`);
