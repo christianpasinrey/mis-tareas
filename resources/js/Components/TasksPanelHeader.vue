@@ -35,9 +35,9 @@ function leaveButton(e,panel){
 </script>
 <template>
     <div class="flex flex-row w-full justify-between items-center gap-3 px-4 py-2">
-        <div class="flex flex-wrap gap-3 relative">
+        <div class="flex flex-wrap gap-3">
             <button v-for="panel in tasksStore.tasksPanels"
-                class="hover:scale-105 transition duration-500 ease-in-out"
+                class="hover:scale-105 transition duration-500 ease-in-out relative"
                 :key="`panel-${panel.id}`"
                 :id="`panel-button-${panel.id}`"
                 :style="{
@@ -75,10 +75,14 @@ function leaveButton(e,panel){
             Añadir panel
         </button>
     </div>
-    <div class="flex flex-row w-full justify-between px-4">
-        <div class="flex flex-wrap w-full gap-3" v-if="tasksStore.selectedPanel!= null">
-            <span v-for="user in tasksStore.selectedPanel.users" :key="`panel-user-${user.id}`">
-                <span class="text-xs font-bold text-gray-500"> {{ user.alias!= null && user.alias != '' ? user.alias : user.name }} </span>
+    <div class="flex flex-row w-full justify-between mx-4 px-4 bg-gray-300 rounded-md text-gray-500 hover:text-gray-50 hover:bg-gray-500">
+        <div class="flex flex-wrap w-full gap-6 h-fit" v-if="tasksStore.selectedPanel!= null">
+            <span v-for="user in tasksStore.selectedPanel.users" :key="`panel-user-${user.id}`"
+                class="hover:scale-110 transition duration-500 ease-in-out"
+            >
+                <span class="text-xs font-bold cursor-default"
+                    :title="user.alias!= null && user.alias != '' ? user.alias + ' - ' + user.email : user.name + ' - ' + user.email"
+                > {{ user.alias!= null && user.alias != '' ? user.alias : user.name }} </span>
             </span>
         </div>
     </div>

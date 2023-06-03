@@ -64,7 +64,7 @@ onBeforeMount(()=>{
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 min-h-[60vh]">
                 <TasksPanelHeader @toggleModal="toggleModal"/>
                 <hr class="my-2">
-                <div class="flex flex-row w-full justify-center items-center min-h-[60vh]" v-if="tasksStore.selectedPanel!=null">
+                <div class="flex flex-row w-full justify-center items-start" v-if="tasksStore.selectedPanel!=null">
                     <TasksPanel :userId="props.user.id"/>
                 </div>
                 <div class="flex flex-row w-full justify-center items-center min-h-[60vh] flex-grow" v-else>
