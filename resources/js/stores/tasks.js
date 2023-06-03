@@ -1,9 +1,13 @@
 import {defineStore} from 'pinia'
 import {ref} from 'vue'
 import axios from 'axios'
-
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+const toast = useToast();
 export const useTasksStore = defineStore('tasks', ()=>{
     const tasks = ref([]);
+    const assignedTasks = ref([]);
+    const tasksStatuses = ref([]);
     const user = ref(null);
     const users = ref([]);
     const newTask = ref({
@@ -14,7 +18,7 @@ export const useTasksStore = defineStore('tasks', ()=>{
         status: 1,
         users: []
     });
-
+    const loading = ref(true);
     const getUser = async (id) => {
         axios.get(route('users.show',id))
         .then(response => {
@@ -26,17 +30,33 @@ export const useTasksStore = defineStore('tasks', ()=>{
         })
     }
 
-    const getUsers = async () => {
+    async function getUsers(){
         const response = await axios.get(route('users.index'));
         users.value = response.data;
     }
 
-    const getTasks = async () => {
-        const response = await axios.get(route('users.tasks',user.value.id));
-        tasks.value = response.data;
+    const getTasks = () => {
+        loading.value = true;
+        getTasksStatuses();
+        axios.get(route('users.tasks',user.value.id))
+        .then(response => {
+            tasks.value = response.data.filter(task => task.user_id === user.value.id);
+            assignedTasks.value = response.data.filter(task => task.users.some(u => u.id === user.value.id));
+        }).then(()=>{
+            loading.value = false;
+        }).catch(error => {
+            console.log(error);
+        });
     }
-
-    const storeTask = async (task) => {
+    const getTasksStatuses = () => {
+        axios.get(route('tasks_statuses.index'))
+        .then(response => {
+            tasksStatuses.value = response.data;
+        }).catch(error => {
+            console.log(error);
+        });
+    }
+    const storeTask = async () => {
         axios.post(route('tasks.store'),newTask.value)
         .then(response => {
             newTask.value = {
@@ -47,14 +67,22 @@ export const useTasksStore = defineStore('tasks', ()=>{
                 users: []
             };
             tasks.value.push(response.data);
+            toast.success('Task created successfully');
         }).catch(error => {
             console.log(error);
         });
     }
 
-    const updateTask = async (task) => {
-        const response = await axios.put(route('tasks.update',task.id),task);
-        tasks.value = tasks.value.map(t => t.id === task.id ? response.data : t);
+    const updateTask = (task) => {
+        task.users = task.users.map(u => u.id);
+        axios.put(route('tasks.update',task.id),task)
+        .then(response => {
+            //change the task for the updated one
+            tasks.value = tasks.value.map(t => t.id === response.data.id ? response.data : t);
+            toast.success('Task updated successfully');
+        }).catch(error => {
+            console.log(error);
+        });
     }
 
     const deleteTask = async (id) => {
@@ -63,14 +91,18 @@ export const useTasksStore = defineStore('tasks', ()=>{
     }
     return {
         tasks,
+        assignedTasks,
+        tasksStatuses,
         user,
         users,
         newTask,
+        loading,
         getUser,
         getUsers,
         getTasks,
+        getTasksStatuses,
         storeTask,
         updateTask,
-        deleteTask
+        deleteTask,
     };
 });

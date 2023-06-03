@@ -1,9 +1,10 @@
 <script setup>
-    import { onBeforeMount } from 'vue';
+    import { computed, onBeforeMount,ref } from 'vue';
     import InputLabel from '@/Components/InputLabel.vue';
     import { useTasksStore } from '../stores/tasks.js';
 
     const tasksStore = useTasksStore();
+    const search = ref('');
     onBeforeMount(() => {
        tasksStore.getUsers();
     });
@@ -24,19 +25,21 @@
                     <InputLabel>Descripción</InputLabel>
                     <textarea v-model="tasksStore.newTask.description" :rows="4" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
                 </div>
-                <div class="col-span-12">
+                <div class="col-span-12 relative h-12">
                     <InputLabel>Asignar usuarios</InputLabel>
-                    <multiselect
-                        v-model="tasksStore.newTask.users"
-                        :options="tasksStore.users"
-                        :multiple="true"
-                        placeholder="Selecciona usuarios para asignar a la tarea"
-                        label="label"
-                        track-by="label"
-                    />
+
+                        <v-select
+                            :options="tasksStore.users"
+                            v-model="tasksStore.newTask.users"
+                            multiple
+                            :searchable="true"
+                            :reduce="option => option.id"
+                            label="label"
+                        ></v-select>
+
                 </div>
                 <div class="col-span-12 justify-center text-end content-end items-end">
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded" @click.prevent="addTask()">
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded">
                         Guardar
                     </button>
                 </div>

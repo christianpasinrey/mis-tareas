@@ -29,8 +29,6 @@ class UpdateTaskRequest extends FormRequest
             'description' => 'nullable',
             'due_date' => 'nullable|date',
             'status_id' => 'required|exists:task_statuses,id',
-            'users' => 'nullable|array',
-            'users.*' => 'exists:users,id',
         ];
     }
 
@@ -48,7 +46,6 @@ class UpdateTaskRequest extends FormRequest
             'due_date.date' => 'La fecha límite debe ser una fecha válida',
             'status_id.required' => 'El estado es obligatorio',
             'status_id.exists' => 'El estado seleccionado no existe',
-            'users.*.exists' => 'El usuario seleccionado no existe',
         ];
     }
 }

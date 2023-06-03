@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TaskStatusController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,7 +29,9 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Dashboard', [
+        'user' => auth()->user(),
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -40,6 +43,9 @@ Route::middleware('auth')->group(function () {
 Route::group(['middleware' => ['auth']],function(){
     Route::resource('users', UserController::class);
     Route::resource('tasks', TaskController::class);
+    Route::resource('tasks_statuses', TaskStatusController::class);
+
+    Route::get('/users/{id}/tasks', [TaskController::class, 'userTasks'])->name('users.tasks');
 });
 
 require __DIR__.'/auth.php';

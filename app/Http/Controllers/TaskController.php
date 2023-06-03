@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\User;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 
@@ -22,6 +23,15 @@ class TaskController extends Controller
         }
     }
 
+    public function userTasks($id){
+        try{
+            $user = User::findOrFail($id);
+        }catch(\Exception){
+            throw new \Exception('Error al obtener el usuario');
+        }
+        $tasks = Task::with('users')->where('user_id', $user->id)->orWhereIn('id', $user->tasksAssigned->pluck('id'))->get();
+        return response()->json($tasks);
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -38,6 +48,8 @@ class TaskController extends Controller
                 'errors' => $e->errors()
             ], 400));
         }
+        $validated['user_id'] = auth()->user()->id;
+        $validated['status_id'] = 1;
         $task = Task::create($validated);
         $task->users()->sync($validated['users']);
         return response()->json([
@@ -79,7 +91,8 @@ class TaskController extends Controller
             ], 400));
         }
         $task->update($validated);
-        $task->users()->sync($validated['users']);
+
+        $task->users()->sync($request['users']);
         return response()->json([
             'message' => 'Tarea actualizada correctamente',
             'task' => $task

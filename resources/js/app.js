@@ -6,10 +6,12 @@ import { createInertiaApp } from '@inertiajs/vue3';
 import { createPinia } from 'pinia'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
-import VueMultiselect from 'vue-multiselect'
+import vSelect from 'vue-select'
+import 'vue-select/dist/vue-select.css';
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 const pinia = createPinia();
+
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
@@ -18,7 +20,7 @@ createInertiaApp({
             .use(plugin)
             .use(pinia)
             .use(ZiggyVue, Ziggy)
-            .component('multiselect', VueMultiselect)
+            .component('v-select', vSelect)
             .mount(el);
     },
     progress: {

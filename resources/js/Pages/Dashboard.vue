@@ -3,17 +3,19 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import Modal from '@/Components/Modal.vue';
 import ModalTitle from '@/Components/ModalTitle.vue';
-import ToastNotification from '@/Components/ToastNotification.vue';
 import { useTasksStore } from '../stores/tasks.js';
 import { ref, computed, onBeforeMount } from 'vue';
 import StoreTaskForm from '../Forms/StoreTaskForm.vue';
 import {usePage} from '@inertiajs/vue3';
+import TasksPanel from '../Components/TasksPanel.vue';
 
-const { props } = usePage().props;
+const props = defineProps({
+    user: {
+        type: Object,
+        required: true
+    }
+});
 const tasksStore = useTasksStore();
-const showToast = ref(false);
-const toastMessage = ref('');
-const toastType = ref('success');
 const selectedModal = ref(null);
 
 const toggleModal = (modal) => {
@@ -36,9 +38,6 @@ const deleteTask = () => {
     tasksStore.deleteTask();
 };
 
-onBeforeMount(() => {
-    console.log(props);
-});
 </script>
 
 <template>
@@ -58,13 +57,12 @@ onBeforeMount(() => {
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
+                <TasksPanel :userId="props.user.id"/>
             </div>
         </div>
-        <Modal :show="true" maxWidth="3xl">
+        <Modal :show="showModal('newTask')" maxWidth="3xl">
             <ModalTitle title="Nueva tarea" @close="toggleModal(null)"/>
             <StoreTaskForm @submitted="toggleModal(null)"/>
         </Modal>
-        <ToastNotification v-if="showToast" :message="toastMessage" :type="toastType" @close="showToast = false" />
     </AuthenticatedLayout>
 </template>
