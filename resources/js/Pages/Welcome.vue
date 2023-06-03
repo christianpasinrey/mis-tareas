@@ -1,6 +1,15 @@
 <script setup>
+import {onMounted,ref} from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
-
+const canvas = ref(null);
+const windowHeigth = ref(window.innerHeight);
+const windowWidth = ref(window.innerWidth);
+onMounted(()=>{
+    const ctx = canvas.value.getContext('2d');
+    //draw background slowly as a transition from left to rigth with the color #C5E2F0
+    ctx.fillStyle = '#C5E2F0';
+    ctx.fillRect(0, 0, windowWidth.value, windowHeigth.value);
+})
 defineProps({
     canLogin: Boolean,
     canRegister: Boolean,
@@ -15,7 +24,7 @@ defineProps({
     <div
         class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white"
     >
-        <div v-if="canLogin" class="sm:fixed sm:top-0 sm:right-0 p-6 text-right">
+        <div v-if="canLogin" class="sm:fixed sm:top-0 sm:right-0 p-6 text-right absolute z-20">
             <Link
                 v-if="$page.props.auth.user"
                 :href="route('dashboard')"
@@ -39,8 +48,11 @@ defineProps({
             </template>
         </div>
 
-        <div class="max-w-7xl mx-auto p-6 lg:p-8">
+        <div class="max-w-7xl mx-auto p-6 lg:p-8 absolute z-20">
             <h1 class="rounded-md animate-bounce bg-blue-500 text-white font-medium px-12 py-4 text-4xl">MIS TAREAS</h1>
+        </div>
+        <div class="absolute top-0 left-0 h-full w-full z-10">
+            <canvas ref="canvas" :height="windowHeigth" :width="windowWidth"></canvas>
         </div>
     </div>
 </template>
