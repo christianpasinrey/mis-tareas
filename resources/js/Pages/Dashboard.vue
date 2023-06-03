@@ -58,12 +58,18 @@ onBeforeMount(()=>{
     <Head title="Dashboard" />
 
     <AuthenticatedLayout>
-        <div class="py-12 h-full">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 h-full">
+        <div class="py-12 min-h-[80vh]">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 min-h-[60vh]">
                 <TasksPanelHeader @toggleModal="toggleModal"/>
                 <hr class="my-2">
-                <div class="flex flex-row w-full justify-center items-center" v-if="tasksStore.selectedPanel!=null">
+                <div class="flex flex-row w-full justify-center items-center min-h-[60vh]" v-if="tasksStore.selectedPanel!=null">
                     <TasksPanel :userId="props.user.id"/>
+                </div>
+                <div class="flex flex-row w-full justify-center items-center min-h-[60vh] flex-grow" v-else>
+                    <div class="flex flex-col w-full justify-center items-center">
+                        <h1 class="text-2xl font-bold text-gray-500">No hay paneles de tareas</h1>
+                        <p class="text-gray-500">Crea uno para empezar a trabajar</p>
+                    </div>
                 </div>
             </div>
         </div>
