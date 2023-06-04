@@ -94,7 +94,7 @@ const hexToHsl = (hexColor) =>{
                 @mouseleave="leaveButton($event,panel)"
             >
                 {{ panel.name }}
-                <button @click.prevent="editPanel" v-if="panel === tasksStore.selectedPanel"
+                <button @click.prevent="editPanel" v-if="panel === tasksStore.selectedPanel && tasksStore.selectedPanel.user_id === tasksStore.user.id"
                     class="absolute -bottom-3 -left-3 z-10 text-xs bg-yellow-500 hover:opacity-85 text-gray-900 hover:text-gray-50 font-bold p-1 rounded-full border border-slate-200 transition duration-500 ease-in-out">
                     <svg xmlns="http://www.w3.org/2000/svg"
                         fill="currentColor"
