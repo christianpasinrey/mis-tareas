@@ -17,9 +17,7 @@
     }
     const dragging = (e) => {
         e.target.style.opacity = "0.5";
-        //animate the element with a slight rotation
         e.target.style.scale = "1.1";
-        // light yellow background
         e.target.style.backgroundColor = "#fff3cd";
         e.target.style.color = "#856404";
     }
