@@ -86,7 +86,7 @@ const hexToHsl = (hexColor) =>{
                     backgroundColor: tasksStore.selectedPanel == panel ? panel.background_color : 'white',
                     borderRadius: '5px',
                     padding: '5px 10px',
-                    color: tasksStore.selectedPanel == panel ? 'white' : hexToHsl(panel.backgroun_color).split(','[2].split('%')[0]) > 50 ? 'darkgray' : panel.background_color,
+                    color: tasksStore.selectedPanel == panel ? 'white' : 'darkgray',
                     fontWeight: tasksStore.selectedPanel == panel ? 'bold' : 'normal',
                 }"
                 @click.prevent="tasksStore.selectedPanel = tasksStore.tasksPanels.find(p => p.id === panel.id)"
