@@ -10,6 +10,7 @@ export const useTasksStore = defineStore('tasks', ()=>{
     const tasksStatuses = ref([]);
     const tasksPanels = ref([]);
     const selectedPanel = ref(null);
+    const selectedTask = ref(null);
     const user = ref(null);
     const users = ref([]);
     const newTask = ref({
@@ -113,11 +114,12 @@ export const useTasksStore = defineStore('tasks', ()=>{
             console.log(error);
         });
     }
-    const updateTask = (task) => {
-        task.users = task.users.map(u => u.id);
+    const updateTask = () => {
+        let task = selectedTask.value;
+        task.users = selectedTask.value.users.map(u => u.id);
         axios.put(route('tasks.update',task.id),task)
         .then(response => {
-            tasksPanels.value.find(t=>selectedPanel.value.id === t.id).users = selectedPanel.value.users;
+            tasks.value.find(t=>selectedTask.value.id === t.id).users = response.data.task.users;
             toast.success('Tarea actualizada correctamente');
         }).catch(error => {
             console.log(error);
@@ -133,6 +135,7 @@ export const useTasksStore = defineStore('tasks', ()=>{
         tasksPanels,
         newPanel,
         selectedPanel,
+        selectedTask,
         assignedTasks,
         tasksStatuses,
         user,

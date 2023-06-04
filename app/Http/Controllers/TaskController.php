@@ -94,6 +94,7 @@ class TaskController extends Controller
         $task->update($validated);
 
         $task->users()->sync($request['users']);
+        $task->load('users');
         return response()->json([
             'message' => 'Tarea actualizada correctamente',
             'task' => $task
