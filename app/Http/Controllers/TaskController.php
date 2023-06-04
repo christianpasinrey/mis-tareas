@@ -52,6 +52,7 @@ class TaskController extends Controller
         $validated['status_id'] = 1;
         $task = Task::create($validated);
         $task->users()->sync($validated['users']);
+        $task->load('users');
         return response()->json([
             'message' => 'Tarea creada correctamente',
             'task' => $task

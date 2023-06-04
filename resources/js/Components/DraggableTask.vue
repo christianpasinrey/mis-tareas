@@ -37,7 +37,7 @@
         :key="`task-${task.id}`"
         :taskId="task.id"
         :id="`task-${task.id}`"
-        class="flex flex-row justify-between w-full px-2 py-1 bg-gray-200 dark:bg-gray-700 dark:text-gray-50 cursor-default transition duration-500 ease-in-out"
+        class="flex flex-row mb-2 justify-between w-full px-2 py-1 bg-gray-200 dark:bg-gray-700 dark:text-gray-50 cursor-default transition duration-500 ease-in-out"
         :class="{
             'rounded-md': !collapsed,
             'rounded-t-md': collapsed,
