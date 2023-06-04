@@ -126,5 +126,12 @@ const hexToHsl = (hexColor) =>{
                 > {{ user.alias!= null && user.alias != '' ? user.alias : user.name }} </span>
             </span>
         </div>
+        <span v-if="tasksStore.selectedPanel!= null"
+            class="hover:scale-110 transition duration-500 ease-in-out border-l-2 border-l-white pl-4"
+        >
+            <span class="text-xs font-bold cursor-default"
+                :title="tasksStore.selectedPanel.user.alias!= null && tasksStore.selectedPanel.user.alias != '' ? tasksStore.selectedPanel.user.alias + ' - ' + tasksStore.selectedPanel.user.email : tasksStore.selectedPanel.user.name + ' - ' + tasksStore.selectedPanel.user.email"
+            > {{ tasksStore.selectedPanel.user.alias!= null && tasksStore.selectedPanel.user.alias != '' ? tasksStore.selectedPanel.user.alias : tasksStore.selectedPanel.user.name }} </span>
+        </span>
     </div>
 </template>

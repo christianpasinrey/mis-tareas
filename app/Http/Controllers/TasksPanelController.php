@@ -17,7 +17,7 @@ class TasksPanelController extends Controller
     public function index()
     {
         try{
-            return response()->json(TasksPanel::with('tasks','tasks.user','tasks.users','users')->get());
+            return response()->json(TasksPanel::with('tasks','tasks.user','tasks.users','users','user')->get());
         }catch(\Exception){
             throw new \Exception('Error al obtener las tareas');
         }
