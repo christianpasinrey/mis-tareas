@@ -32,13 +32,18 @@ const submit = () => {
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
             {{ status }}
         </div>
-
-        <form @submit.prevent="submit">
+        <div class="absolute top-0 left-0 h-full w-full z-10">
+            <video ref="video" autoplay loop muted class="h-full w-full object-cover">
+                <source src="storage/home-video.mp4" type="video/mp4" />
+            </video>
+        </div>
+        <form @submit.prevent="submit" class="absolute top-1/3 left-[40%] z-20 bg-slate-200 rounded-md py-4 px-2 opacity-80">
             <div>
                 <InputLabel for="email" value="Email" />
 
                 <TextInput
                     id="email"
+                    style="opacity: 1 !important;"
                     type="email"
                     class="mt-1 block w-full"
                     v-model="form.email"
@@ -56,6 +61,7 @@ const submit = () => {
                 <TextInput
                     id="password"
                     type="password"
+                    style="opacity: 1 !important;"
                     class="mt-1 block w-full"
                     v-model="form.password"
                     required
