@@ -41,9 +41,13 @@ class TasksPanelController extends Controller
             ], 400));
         }
         $tasksPanel = TasksPanel::create($validated);
+        if(isset($validated['users'])){
+            $tasksPanel->users()->sync($validated['users']);
+        }
+
         return response()->json([
             'message' => 'Panel creado correctamente',
-            'tasksPanel' => $tasksPanel
+            'tasksPanel' => $tasksPanel->with('users')->get()
         ], 201);
     }
 

@@ -26,7 +26,8 @@ class StoreTasksPanelRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:255',
-            'background_color' => 'required|string|max:255'
+            'background_color' => 'required|string|max:255',
+            'users' => 'nullable|array',
         ];
     }
 }

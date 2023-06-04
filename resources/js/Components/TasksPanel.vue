@@ -30,7 +30,7 @@
     });
 </script>
 <template>
-    <div class="dark:text-gray-50 grid grid-cols-12 w-full h-full h-min-64">
+    <div class="dark:text-gray-50 flex flex-wrap gap-3 w-full h-full h-min-64 px-4">
         <TasksPanelDroppable v-for="status in tasksStore.tasksStatuses"
             :key="`status-${status.id}`" :status="status">
             <DraggableTask

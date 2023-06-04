@@ -30,8 +30,49 @@ function leaveButton(e,panel){
         return;
     }
     element.style.backgroundColor = 'white';
+    //transform hex color to hsl and if the lightness is more than 50% then the text color is darkgray
+    let hsl = hexToHsl(panel.background_color);
+    let lightness = hsl.split(',')[2].split('%')[0];
+    if(lightness > 50){
+        element.style.color = 'darkgray';
+        return;
+    }
     element.style.color = panel.background_color;
 };
+const hexToHsl = (hexColor) =>{
+    let r = parseInt(hexColor.slice(1, 3), 16),
+        g = parseInt(hexColor.slice(3, 5), 16),
+        b = parseInt(hexColor.slice(5, 7), 16),
+        a = parseInt(hexColor.slice(7, 9), 16) / 255;
+    r /= 255, g /= 255, b /= 255;
+    let max = Math.max(r, g, b),
+        min = Math.min(r, g, b);
+    let h, s, l = (max + min) / 2;
+    if (max == min) {
+        h = s = 0;
+    }
+    else {
+        let d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+        case r:
+            h = (g - b) / d + (g < b ? 6 : 0);
+            break;
+        case g:
+            h = (b - r) / d + 2;
+            break;
+        case b:
+            h = (r - g) / d + 4;
+            break;
+        }
+        h /= 6;
+    }
+    s = s * 100;
+    s = Math.round(s);
+    l = l * 100;
+    l = Math.round(l);
+    return "hsl(" + h + ", " + s + "%, " + l + "%)";
+}
 </script>
 <template>
     <div class="flex flex-row w-full justify-between items-center gap-3 px-4 py-2">
@@ -45,7 +86,7 @@ function leaveButton(e,panel){
                     backgroundColor: tasksStore.selectedPanel == panel ? panel.background_color : 'white',
                     borderRadius: '5px',
                     padding: '5px 10px',
-                    color: tasksStore.selectedPanel == panel ? 'white' : panel.background_color,
+                    color: tasksStore.selectedPanel == panel ? 'white' : hexToHsl(panel.backgroun_color).split(','[2].split('%')[0]) > 50 ? 'darkgray' : panel.background_color,
                     fontWeight: tasksStore.selectedPanel == panel ? 'bold' : 'normal',
                 }"
                 @click.prevent="tasksStore.selectedPanel = tasksStore.tasksPanels.find(p => p.id === panel.id)"
@@ -75,8 +116,8 @@ function leaveButton(e,panel){
             Nueva Tarea
         </button>
     </div>
-    <div class="flex flex-row w-full justify-between mx-4 px-4 bg-gray-300 rounded-md text-gray-500 hover:text-gray-50 hover:bg-gray-500">
-        <div class="flex flex-wrap w-full gap-6 h-fit" v-if="tasksStore.selectedPanel!= null">
+    <div class="flex flex-row my-3 w-[96.5%] justify-between mx-4 px-4 bg-gray-300 rounded-md text-gray-500 hover:text-gray-50 hover:bg-gray-500">
+        <div class="flex flex-wrap w-full gap-6 h-fit mx-4 px-4" v-if="tasksStore.selectedPanel!= null">
             <span v-for="user in tasksStore.selectedPanel.users" :key="`panel-user-${user.id}`"
                 class="hover:scale-110 transition duration-500 ease-in-out"
             >

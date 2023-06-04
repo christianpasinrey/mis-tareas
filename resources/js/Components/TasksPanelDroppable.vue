@@ -1,5 +1,6 @@
 <script setup>
     import { useTasksStore } from '../stores/tasks.js';
+    import { ref, onMounted } from 'vue';
 
     const tasksStore = useTasksStore();
     const props = defineProps({
@@ -8,6 +9,7 @@
             required: true
         },
     })
+    const width = ref(window.innerWidth);
 
     const onDrop = (e) => {
         e.preventDefault();
@@ -16,10 +18,21 @@
         tasksStore.tasks.find(task => task.id === parseInt(data)).status_id = props.status.id;
         tasksStore.updateTask(tasksStore.tasks.find(task => task.id === parseInt(data)));
     }
+    onMounted(() => {
+        window.addEventListener('resize', () => {
+            width.value = window.innerWidth;
+        });
+    });
 </script>
 <template>
     <div
-        class="flex flex-col min-h-[35vh] max-h-full col-span-3 mx-4 rounded-md dark:bg-slate-500 bg-slate-300"
+        class="flex flex-col min-h-[35vh] max-h-full rounded-md dark:bg-slate-500 bg-slate-300"
+        :class="{
+            //different width column for each window size
+            'w-[100vw] px-4': width < 640,
+            'w-[24vh]': width >= 640 && width < 1024,
+            'w-[24%]': width >= 1024,
+        }"
         :dropzone="true"
         @dragover="e => e.preventDefault()"
         @drop="onDrop($event)"
