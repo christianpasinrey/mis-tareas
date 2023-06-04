@@ -82,7 +82,7 @@ export const useTasksStore = defineStore('tasks', ()=>{
                 status: 1,
                 users: []
             };
-            tasks.value.push(response.data);
+            tasks.value.push(response.data.task);
             toast.success('Tarea creada correctamente');
         }).catch(error => {
             console.log(error);
