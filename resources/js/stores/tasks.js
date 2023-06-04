@@ -47,7 +47,7 @@ export const useTasksStore = defineStore('tasks', ()=>{
     const getTasksPanels = () => {
         axios.get(route('tasks_panels.index'))
         .then(response => {
-            tasksPanels.value = response.data.filter((panel)=>panel.user_id === user.value.id);
+            tasksPanels.value = response.data.filter((panel)=>panel.user_id === user.value.id || panel.users.some(u => u.id === user.value.id));
             loading.value = false;
         }).catch(error => {
             console.log(error);
