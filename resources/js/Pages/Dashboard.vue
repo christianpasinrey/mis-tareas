@@ -22,7 +22,7 @@ const props = defineProps({
         required: true
     },
 });
-const selectedPanel = ref(null);
+
 const tasksStore = useTasksStore();
 const selectedModal = ref(null);
 
@@ -38,20 +38,7 @@ const showModal = (modal) => {
     return selectedModal.value === modal;
 };
 
-const addTask = () => {
-    tasksStore.addTask();
-};
-
-const updateTask = () => {
-    tasksStore.updateTask();
-};
-
-const deleteTask = () => {
-    tasksStore.deleteTask();
-};
-
 onBeforeMount(()=>{
-    tasksStore.getTasksPanels();
     tasksStore.getUsers();
 })
 </script>

@@ -14,7 +14,8 @@ class TasksPanel extends Model
     protected $fillable = [
         'name',
         'description',
-        'background_color'
+        'background_color',
+        'user_id'
     ];
 
 
@@ -26,5 +27,10 @@ class TasksPanel extends Model
     public function users()
     {
         return $this->belongsToMany(User::class, 'users_in_tasks_panels', 'tasks_panel_id', 'user_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

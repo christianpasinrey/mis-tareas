@@ -68,7 +68,7 @@ class User extends Authenticatable
         );
     }
 
-    public function tasksPanels()
+    public function assignedTasksPanels()
     {
         return $this->belongsToMany(
             TasksPanel::class,
@@ -76,6 +76,11 @@ class User extends Authenticatable
             'user_id',
             'tasks_panel_id'
         );
+    }
+
+    public function tasksPanels()
+    {
+        return $this->hasMany(TasksPanel::class, 'user_id');
     }
 
     public function can($abilities, $arguments = [])

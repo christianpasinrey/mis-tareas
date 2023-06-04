@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref,onBeforeMount } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
@@ -7,7 +7,10 @@ import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
 import { useDark } from '@vueuse/core';
-
+import { useTasksStore } from '@/stores/tasks';
+import { usePage } from '@inertiajs/vue3';
+const page = usePage();
+const tasksStore = useTasksStore();
 const dark = useDark();
 const mode = ref('light');
 const toggleDarkMode = () => {
@@ -16,6 +19,9 @@ const toggleDarkMode = () => {
 };
 
 const showingNavigationDropdown = ref(false);
+onBeforeMount(()=>{
+    tasksStore.getUser(page.props.auth.user.id);
+})
 </script>
 
 <template>
