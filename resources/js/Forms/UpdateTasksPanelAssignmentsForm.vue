@@ -3,11 +3,18 @@ import { useTasksStore } from '../stores/tasks.js';
 import { useToast } from 'vue-toast-notification';
 import InputLabel from '@/Components/InputLabel.vue';
 
+const toast = useToast();
+const emits = defineEmits(['submitted']);
 const tasksStore = useTasksStore();
 
+const update = () => {
+    tasksStore.updatePanelAssignments;
+    toast.success('Panel actualizado correctamente');
+    emits('submitted');
+}
 </script>
 <template>
-    <form @submit.prevent="tasksStore.updateSelectedPanelAssignments">
+    <form @submit.prevent="update">
         <div class="flex flex-row w-[400px] h-32">
             <div class="flex flex-col w-full px-4 justify-center">
                 <InputLabel>Asignar usuarios</InputLabel>

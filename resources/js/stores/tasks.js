@@ -110,7 +110,6 @@ export const useTasksStore = defineStore('tasks', ()=>{
         axios.post(route('tasks_panels.update_assignments',selectedPanel.value.id),{users: selectedPanel.value.users.map(u => u.id)})
         .then(response => {
             tasksPanels.value.find(p => p.id === response.data.id).users = response.data.users;
-            toast.success('Panel actualizado correctamente');
         }).catch(error => {
             console.log(error);
         });
