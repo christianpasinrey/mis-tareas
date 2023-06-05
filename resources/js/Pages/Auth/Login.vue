@@ -40,7 +40,7 @@ const toggleMuteVideo = () => {
         </div>
         <div class="absolute top-0 left-0 h-full w-full z-10">
             <video ref="video" autoplay loop muted class="h-full w-full object-cover">
-                <source src="storage/home-video.mp4" type="video/mp4" />
+                <source src="videos\home-video.mp4" type="video/mp4" />
             </video>
         </div>
         <div class="max-w-7xl mx-auto p-6 lg:p-8 absolute z-20 top-0 left-0 flex">
