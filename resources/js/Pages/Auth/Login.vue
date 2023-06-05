@@ -59,7 +59,7 @@ const toggleMuteVideo = () => {
                 </svg>
             </span>
         </div>
-        <form @submit.prevent="submit" class="absolute top-1/3 left-[40%] z-20 bg-slate-200 rounded-md py-4 px-6 opacity-80">
+        <form @submit.prevent="submit" class="absolute top-1/3 z-20 bg-slate-200 rounded-md py-4 px-6 opacity-80">
             <div>
                 <InputLabel for="email" value="Email" />
 
